@@ -77,12 +77,20 @@ class FrontController{
                 }
                 , 'get'); 
                 
+            /***********************PRODUCTOS******************************/    
+            
+                /*
+                  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 
+                 */
+                
+                
                  Route::add('/productos', 
                 function(){
-                    $controlador = new \Com\Daw2\Controllers\ProductoController();
-                    $controlador->mostrarTodos();
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->showAll();
                 }
-                , 'get');   
+                , 'get');       
+
                 
                 
         
