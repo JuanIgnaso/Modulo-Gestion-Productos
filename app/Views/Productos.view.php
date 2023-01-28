@@ -42,7 +42,7 @@
                         </div> 
                           <div class="col-12 col-lg-3">
                             <div class="mb-3">
-                                <label for="username">Proveedores:</label>
+                                <label for="username">Categoria:</label>
                                 <select name="categoria[]" id="proveedor" class="form-control select2" data-placeholder="Roles"  multiple>
                                     <option value="">-</option>
                                     <?php
@@ -67,12 +67,19 @@
             </form>
         </div>
     </div>
+<div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-body text-center">
+                 <a href="/addProducto" name="anadir" class="btn btn-primary">Añadir Nuevo Registro</a>
+            </div>
+        </div>
+    </div>
     <div class="col-12">
         <div class="card shadow mb-4">
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Datos de los Productos</h6>
-                <h6>Total de registros: <b class="text-danger"><?php echo count($productos);?></b></h6>
+                <h6>Total de registros: <b class="text-danger"><?php echo $productos_totales;?></b></h6>
             </div>
             <!-- Card Body -->
             <div class="card-body" id="card_table">
@@ -110,7 +117,14 @@
                             <td><?php echo $producto['nombre_categoria']?></td>
                             <td><?php echo $producto['stock']?></td>
                             <td><?php echo $producto['coste'] * $producto['margen'] * (1 + $producto['iva'] / 100);?></td>
-                            <!-- (coste x margen x (1 + iva/ 100) -->
+                             <!-- (coste x margen x (1 + iva/ 100) -->
+                            <td>
+                                <!-- BORRAR /proveedor/delete/< ? php echo $proveedor['cif'];? >-->
+                            <a href="" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
+                            <!-- EDITAR /proveedor/edit/< ? php echo $proveedor['cif']; ? > -->
+                            <a href="" class="btn btn-info ml-1"><i class="fas fa-pen"></i></a>
+                            </td>
+                           
 
                         </tr>
                         <?php

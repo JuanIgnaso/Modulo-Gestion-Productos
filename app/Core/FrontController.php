@@ -86,7 +86,16 @@ class FrontController{
                     $controlador = new \Com\Daw2\Controllers\ProductosController();
                     $controlador->showAll();
                 }
-                , 'get');       
+                , 'get'); 
+                
+                                
+                 Route::add('/addProducto', 
+                function(){
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->mostrarAdd();
+                }
+                , 'get'); 
+                
 
                 
                 

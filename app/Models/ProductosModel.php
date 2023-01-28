@@ -21,9 +21,9 @@ class ProductosModel extends \Com\Daw2\Core\BaseModel{
         private const DEFAULT_ORDER = 0;
        
         
-        function showAll(): array{
+        function showAll(): int{
             $stmt = $this->pdo->query(self::SELECT_ALL);
-            return $stmt->fetchAll();
+            return $stmt->rowCount();
         }
         
         /*

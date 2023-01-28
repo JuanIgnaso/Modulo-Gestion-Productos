@@ -21,6 +21,7 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
        /* $data['productos'] = $modelP->mostrarConsulta($_GET,$_ENV['table.rowsPerPage']);*/
         $data['proveedores'] = $modelProv->getAll();
         $data['categorias'] = $modelC->getAll();
+        $data['productos_totales'] = $modelP->showAll();
         
         $copiaGET = $_GET;
         unset($copiaGET['order']);
@@ -53,5 +54,18 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
 
         
         $this->view->showViews(array('templates/header.view.php','Productos.view.php','templates/footer.view.php'),$data);
+    }
+    
+    function mostrarAdd(){
+        $data=[];
+        $data['titulo'] = 'Alta Productos';
+        $data['seccion'] = '/addProducto';
+        $modelProv = new \Com\Daw2\Models\ProveedorModel();
+        $modelC = new \Com\Daw2\Models\CategoriaModel();
+        $data['proveedores'] = $modelProv->getAll();
+        $data['categorias'] = $modelC->getAll();
+        
+        $this->view->showViews(array('templates/header.view.php','AltaProducto.view','templates/footer.view.php'),$data);
+        
     }
 }
