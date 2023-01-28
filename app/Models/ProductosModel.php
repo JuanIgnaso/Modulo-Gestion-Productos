@@ -10,10 +10,82 @@ namespace Com\Daw2\Models;
 
 class ProductosModel extends \Com\Daw2\Core\BaseModel{
     
-        private const SELECT_ALL = "SELECT producto.*,categoria.nombre_categoria FROM producto LEFT JOIN categoria ON producto.id_categoria = categoria.id_categoria";
-
+        private const SELECT_ALL = "SELECT producto.*,categoria.nombre_categoria,proveedor.cif FROM producto LEFT JOIN categoria ON producto.id_categoria = categoria.id_categoria LEFT JOIN proveedor ON producto.proveedor = proveedor.cif";
+        
+        
         function showAll(): array{
             $stmt = $this->pdo->query(self::SELECT_ALL);
             return $stmt->fetchAll();
         }
+        
+        /*
+            Codigo, proveedor, categoria
+         */
+        
+        
+       function mostrarConsulta(array $filtros): array{
+           
+           $resultado  = $this->filterAll($filtros);
+            $conditions = $resultado['condiciones'];
+            $parameters = $resultado['parametros'];
+            
+           
+           if(count($parameters) > 0){
+               $sql = self::SELECT_ALL." WHERE ".implode(" AND ",$conditions);
+               $stmt = $this->pdo->prepare($sql);
+               $stmt->execute($parameters);
+               return $stmt->fetchAll();
+           }else{
+               $stmt = $this->pdo->query(self::SELECT_ALL);
+               return $stmt->fetchAll();
+           }
+        }
+        
+        
+        
+        private function filterAll(array $filtros): array{
+            $resultado = [];
+            $conditions = [];
+            $parameters = [];
+            
+                if(isset($filtros['proveedor']) && is_array($filtros['proveedor'])){
+               $contador = 1;
+               $condicionesRol = [];
+               foreach($filtros['proveedor'] as $proveedor){
+                   if(filter_Var($proveedor,FILTER_VALIDATE_INT));
+                   $condicionesRol[] = ':proveedor'.$contador;
+                   $parameters['proveedor'.$contador] = $proveedor;
+                   $contador++;
+               }
+           }
+           if(count($parameters) > 0){
+               $conditions[] = 'producto.proveedor IN ('.implode(',',$condicionesRol).')';
+           }
+            
+            if(isset($filtros['codigo']) && !empty($filtros['codigo'])){
+                $parameters['codigo'] = '%'.$filtros['codigo'].'%';
+                $conditions[] = ' producto.codigo LIKE :codigo';
+            }
+            $condicionesCategoria = [];
+               if(isset($filtros['categoria']) && is_array($filtros['categoria'])){
+               $contador = 1;
+
+               foreach($filtros['categoria'] as $categoria){
+                   if(filter_Var($categoria,FILTER_VALIDATE_INT));
+                   $condicionesCategoria[] = ':categoria'.$contador;
+                   $parameters['categoria'.$contador] = $categoria;
+                   $contador++;
+               }
+           }
+           if(count($condicionesCategoria) > 0){
+               $conditions[] = 'producto.id_categoria IN ('.implode(',',$condicionesCategoria).')';
+           }
+           
+           $resultado['parametros'] = $parameters;
+           $resultado['condiciones'] = $conditions;
+           
+           return $resultado;
+        }
+        
+        
 }

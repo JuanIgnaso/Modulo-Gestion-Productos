@@ -18,7 +18,7 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         $modelProv = new \Com\Daw2\Models\ProveedorModel();
         $modelP = new \Com\Daw2\Models\ProductosModel();
         $modelC = new \Com\Daw2\Models\CategoriaModel();
-        $data['productos'] = $modelP->showAll();
+        $data['productos'] = $modelP->mostrarConsulta($_GET);
         $data['proveedores'] = $modelProv->getAll();
         $data['categorias'] = $modelC->getAll();
         

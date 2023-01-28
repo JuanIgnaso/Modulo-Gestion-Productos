@@ -78,7 +78,8 @@ class FrontController{
                 , 'get'); 
                 
             /***********************PRODUCTOS******************************/    
-            
+
+                
                 
                  Route::add('/productos', 
                 function(){

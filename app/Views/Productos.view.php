@@ -47,7 +47,7 @@
                                     <?php
                                     foreach ($categorias as $categoria) {
                                         ?>
-                                        <option value="<?php echo $categoria['id_categoria']; ?>" <?php echo (isset($_GET['categoria']) && in_array($categoria['cif'], $_GET['categoria'])) ? 'selected' : ''; ?>><?php echo $categoria['id_categoria']." - ".ucfirst($categoria['nombre_categoria']); ?></option>
+                                        <option value="<?php echo $categoria['id_categoria']; ?>" <?php echo (isset($_GET['categoria']) && in_array($categoria['id_categoria'], $_GET['categoria'])) ? 'selected' : ''; ?>><?php echo $categoria['id_categoria']." - ".ucfirst($categoria['nombre_categoria']); ?></option>
                                         <?php
                                     }
                                     ?>
