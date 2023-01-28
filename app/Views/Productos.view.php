@@ -12,6 +12,7 @@
         <div class="card shadow mb-4">
             <form method="get"  action="/productos">
                 <!-- INPUT HIDDEN -->
+                 <input type="hidden" name="order" value="<?php echo (isset($_GET['order']) && filter_var($_GET['order'], FILTER_VALIDATE_INT)) ? $_GET['order'] : ''; ?>"/>
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>   
                 </div> 
@@ -147,6 +148,49 @@
                 p class No existen registros
                 -->
                 
+            </div>
+              <div class="card-footer">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <?php
+                        if($paginaActual > 1){
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="/productos?page=1<?php echo $queryPage; ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="/productos?page=<?php echo $paginaActual - 1; ?><?php echo $queryPage; ?>" aria-label="Previous">
+                                <span aria-hidden="true">&lt;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <?php
+                        }
+                        ?>                        
+                        <li class="page-item active"><a class="page-link" href="#"><?php echo $paginaActual; ?></a></li>   
+                        <?php
+                        if($paginaActual < $numPaginas){
+                        ?>
+                        <li class="page-item">
+                            <a class="page-link" href="/productos?page=<?php echo $paginaActual + 1; ?><?php echo $queryPage; ?>" aria-label="Next">
+                                <span aria-hidden="true">&gt;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="/productos?page=<?php echo $numPaginas; ?><?php echo $queryPage; ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Last</span>
+                            </a>
+                        </li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>                        
