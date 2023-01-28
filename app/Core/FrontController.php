@@ -79,10 +79,6 @@ class FrontController{
                 
             /***********************PRODUCTOS******************************/    
             
-                /*
-                  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 
-                 */
-                
                 
                  Route::add('/productos', 
                 function(){
