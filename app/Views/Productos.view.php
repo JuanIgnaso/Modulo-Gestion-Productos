@@ -87,13 +87,14 @@
                     <thead>
                         <tr>
                             <!-- Aqui se ponen los campos a pelo
-                                    código, nombre, proveedor, categoría, stock y PVP 
+                           Permitir ordenación por código, nombre, proveedor, categoría y stock.
                             -->
-                            <th>Codigo</th>
-                            <th>Nombre</th>
-                            <th>Proveedor</th>
-                            <th>Categoría</th>
-                            <th>stock</th>
+                            <th><a href="/productos?order=1<?php echo $queryString;?>">Codigo</a></th>
+                            <th><a href="/productos?order=2<?php echo $queryString;?>">Nombre</a></th>
+                            <th><a href="/productos?order=3<?php echo $queryString;?>">Proveedor</a></th>
+                            <th><a href="/productos?order=4<?php echo $queryString;?>">Categoría</a></th>
+                            <th><a href="/productos?order=5<?php echo $queryString;?>">Stock</a></th>
+                            <th>PVP</th>
                                    
                         </tr>
                     </thead>
@@ -107,6 +108,8 @@
                             <td><?php echo $producto['proveedor']?></td>
                             <td><?php echo $producto['nombre_categoria']?></td>
                             <td><?php echo $producto['stock']?></td>
+                            <td><?php echo $producto['coste'] * $producto['margen'] * (1 + $producto['iva'] / 100);?></td>
+                            <!-- (coste x margen x (1 + iva/ 100) -->
 
                         </tr>
                         <?php

@@ -11,7 +11,11 @@ namespace Com\Daw2\Models;
 class ProductosModel extends \Com\Daw2\Core\BaseModel{
     
         private const SELECT_ALL = "SELECT producto.*,categoria.nombre_categoria,proveedor.cif FROM producto LEFT JOIN categoria ON producto.id_categoria = categoria.id_categoria LEFT JOIN proveedor ON producto.proveedor = proveedor.cif";
-        
+        //ORDENACION DE CAMPOS
+        //Permitir ordenación por código, nombre, proveedor, categoría y stock.
+        private const FIELD_ORDER = ['codigo','nombre','proveedor','id_categoria','stock'];
+        private const DEFAULT_ORDER = 0;
+       
         
         function showAll(): array{
             $stmt = $this->pdo->query(self::SELECT_ALL);
@@ -29,14 +33,27 @@ class ProductosModel extends \Com\Daw2\Core\BaseModel{
             $conditions = $resultado['condiciones'];
             $parameters = $resultado['parametros'];
             
+            //Aplicación del filtro ORDER
+            if(isset($filtros['order']) && filter_var($filtros['order'],FILTER_VALIDATE_INT)){
+                if($filtros['order'] <= count(self::FIELD_ORDER) && $filtros['order'] >= 1){
+                    $fieldOrder = self::FIELD_ORDER[$filtros['order'] -1];
+                }else{
+                    $filtros['order'] = self::DEFAULT_ORDER;
+                    $fieldOrder = self::FIELD_ORDER[self::DEFAULT_ORDER];
+                }
+            }else{
+              $filtros['order'] = self::DEFAULT_ORDER;
+              $fieldOrder = self::FIELD_ORDER[self::DEFAULT_ORDER];  
+            }
+            
            
            if(count($parameters) > 0){
-               $sql = self::SELECT_ALL." WHERE ".implode(" AND ",$conditions);
+               $sql = self::SELECT_ALL." WHERE ".implode(" AND ",$conditions)."ORDER BY $fieldOrder";
                $stmt = $this->pdo->prepare($sql);
                $stmt->execute($parameters);
                return $stmt->fetchAll();
            }else{
-               $stmt = $this->pdo->query(self::SELECT_ALL);
+               $stmt = $this->pdo->query(self::SELECT_ALL." ORDER BY $fieldOrder");
                return $stmt->fetchAll();
            }
         }

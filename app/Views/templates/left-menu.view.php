@@ -56,18 +56,6 @@
                   <p>Todos Los Usuarios</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/usuarios/ordenados" class="nav-link <?php echo isset($seccion) && $seccion === '/usuarios/ordenados' ? 'active' : ''; ?>">
-                 <i class="fas fa-money-check-alt"></i>
-                  <p>Ordenados Por Salario</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/csv/totales-2020" class="nav-link <?php echo isset($seccion) && $seccion === '/csv/totales-2020' ? 'active' : ''; ?>">
-                  <i class="fas fa-users nav-icon"></i>
-                  <p>Totales 2020</p>
-                </a>
-              </li>
                 <li class="nav-item">
                 <a href="/productos" class="nav-link <?php echo isset($seccion) && $seccion === '/csv/totales-2020' ? 'active' : ''; ?>">
                  <i class="fas fa-mobile-alt"></i>

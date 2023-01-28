@@ -22,6 +22,14 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         $data['proveedores'] = $modelProv->getAll();
         $data['categorias'] = $modelC->getAll();
         
+        $copiaGET = $_GET;
+        unset($copiaGET['order']);
+        if(count($copiaGET) > 0){
+            $data['queryString'] = "&".http_build_query($copiaGET);
+        }else{
+          $data['queryString'] = "";  
+        }
+        
         $this->view->showViews(array('templates/header.view.php','Productos.view.php','templates/footer.view.php'),$data);
     }
 }
