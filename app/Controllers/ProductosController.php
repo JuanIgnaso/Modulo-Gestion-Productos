@@ -10,6 +10,8 @@ namespace Com\Daw2\Controllers;
 
 class ProductosController extends \Com\Daw2\Core\BaseController{
     
+    private const PATRON_CODIGO = '/^[A-Z]{3}\d{7}$/';
+    
     function showAll(){
         $data=[];
         $data['titulo'] = 'Lista Productos';
@@ -65,7 +67,89 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         $data['proveedores'] = $modelProv->getAll();
         $data['categorias'] = $modelC->getAll();
         
-        $this->view->showViews(array('templates/header.view.php','AltaProducto.view','templates/footer.view.php'),$data);
+        $this->view->showViews(array('templates/header.view.php','AltaProducto.view','templates/footer.view.php'),$data);        
+    }
+    
+    
+    function add(){
+        $modelProv = new \Com\Daw2\Models\ProveedorModel();
+        $modelC = new \Com\Daw2\Models\CategoriaModel();
+        $data=[];
+        $data['titulo'] = 'Alta Productos';
+        $data['seccion'] = '/addProducto';
+        $data['errores'] = $this->checkAdd($_POST);
+        $data['proveedores'] = $modelProv->getAll();
+        $data['categorias'] = $modelC->getAll();
+
         
+        if(count($data['errores']) == 0){
+           $model = new \Com\Daw2\Models\ProductosModel();
+            $resultado =  $model->addProducto($_POST);
+            if($resultado == 1){
+                var_dump($data['errores']);
+                header('Location: /productos');
+            }else if($resultado == 0){
+                 var_dump($data['errores']);
+            }
+        }else{
+
+            $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $this->view->showViews(array('templates/header.view.php','AltaProducto.view','templates/footer.view.php'),$data);         
+        }
+       
+    }
+    
+    function checkAdd(array $post): array{
+        //codigo, nombre, descripción, coste, margen, stock
+        $model = new \Com\Daw2\Models\ProductosModel();
+        
+        $errores = [];
+        if(empty($post['codigo'])){
+            $errores['codigo'] = 'Este campo es obligatorio.';
+        }else if(!preg_match(self::PATRON_CODIGO,$post['codigo'])){
+            $errores['codigo'] = 'Formato de codigo debe de ser LLL0000000.';
+        }
+        
+        if($model->existeProducto($post['codigo'])){
+             $errores['codigo'] = 'El codigo del producto introducido ya existe.';
+        }
+
+        if(empty($post['nombre'])){
+             $errores['nombre'] = 'Este campo es obligatorio.';
+        }
+        if(empty($post['coste'])){
+             $errores['coste'] = 'Este campo es obligatorio.';
+        }
+        if(!filter_var($post['coste'],FILTER_VALIDATE_FLOAT)){
+            $errores['coste'] = 'El coste debe de ser un número.';
+        }else if($post['coste'] <= 0){
+            $errores['coste'] = 'El valor debe de ser mayor a 0.';
+        }
+        
+         if(empty($post['margen'])){
+             $errores['margen'] = 'Este campo es obligatorio.';
+        }
+         if(!filter_var($post['margen'],FILTER_VALIDATE_FLOAT)){
+            $errores['margen'] = 'El margen debe de ser un número.';
+        }else if($post['margen'] <= 0){
+            $errores['margen'] = 'El valor debe de ser mayor a 0.';
+        }
+        
+        
+        if(empty($post['stock'])){
+             $errores['stock'] = 'Este campo es obligatorio.';
+        }
+    if(!filter_var($post['stock'],FILTER_VALIDATE_INT)){
+            $errores['stock'] = 'El stock debe de ser un número.';
+        }else if($post['stock'] <= 0){
+            $errores['stock'] = 'El valor debe de ser mayor a 0.';
+        } 
+        if(empty($post['categoria'])){
+             $errores['categoria'] = 'Este campo es obligatorio.';
+        }
+        if(empty($post['proveedor'])){
+             $errores['proveedor'] = 'Este campo es obligatorio.';
+        }
+        return $errores;      
     }
 }

@@ -44,8 +44,8 @@
                         <div class="col-12 col-lg-3">
                             <div class="mb-3">
                                 <label for="username">Coste:</label>
-                                <input type="text" class="form-control" name="direccion" id="direccion" value="<?php echo isset($input['direccion']) ? $input['direccion'] : '';?>" />
-                                <p class="text-danger small"><?php echo isset($errores['direccion']) ? $errores['direccion'] : '';?></p>
+                                <input type="text" class="form-control" name="coste" id="coste" value="<?php echo isset($input['coste']) ? $input['coste'] : '';?>" />
+                                <p class="text-danger small"><?php echo isset($errores['coste']) ? $errores['coste'] : '';?></p>
                             </div>
                         </div>  
                         <div class="col-12 col-lg-3">
@@ -65,7 +65,7 @@
                         <div class="col-12 col-lg-3">
                             <div class="mb-3">
                                 <label for="username">Proveedores:</label>
-                                <select name="proveedor[]" id="proveedor" class="form-control select2" data-placeholder="Roles"  multiple>
+                                <select name="proveedor[]" id="proveedor" class="form-control select2" data-placeholder="Roles">
                                     <option value="">-</option>
                                     <?php
                                     foreach ($proveedores as $proveedor) {
@@ -75,12 +75,13 @@
                                     }
                                     ?>
                                 </select>
+                                 <p class="text-danger small"><?php echo isset($errores['proveedor']) ? $errores['proveedor'] : '';?></p>
                             </div>
                         </div>
                             <div class="col-12 col-lg-3">
                             <div class="mb-3">
                                 <label for="username">Categoria:</label>
-                                <select name="categoria[]" id="proveedor" class="form-control select2" data-placeholder="Roles"  multiple>
+                                <select name="categoria[]" id="categoria" class="form-control select2" data-placeholder="Roles">
                                     <option value="">-</option>
                                     <?php
                                     foreach ($categorias as $categoria) {
@@ -90,6 +91,7 @@
                                     }
                                     ?>
                                 </select>
+                                <p class="text-danger small"><?php echo isset($errores['cetegoria']) ? $errores['categoria'] : '';?></p>
                             </div>
                         </div>
                     </div>

@@ -96,6 +96,13 @@ class FrontController{
                 }
                 , 'get'); 
                 
+                Route::add('/addProducto', 
+                function(){
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->add();
+                }
+                , 'post'); 
+                
 
                 
                 
