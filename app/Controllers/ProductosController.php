@@ -152,4 +152,24 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         }
         return $errores;      
     }
+    
+    function delete(string $codigo){
+        $modelo = new \Com\Daw2\Models\ProductosModel();
+        $result = $modelo->delete($codigo);
+        $mensaje = '';
+        if($result == 1){
+            header('Location: /productos');
+        }else{
+        $mensaje = 'Ha ocurrido un error al intentar eliminar el producto seleccionado.';
+        $this->cant_delete($mensaje);
+            
+        }
+    }
+    
+    function cant_delete(string $mensaje){
+        $data = [];
+        $data['mensaje'] = $mensaje;
+        $data['seccion'] = '/productos';
+        $this->view->showViews(array('templates/header.view.php','CantDelete.view.php','templates/footer.view.php'),$data);
+    }
 }

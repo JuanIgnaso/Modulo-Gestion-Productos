@@ -92,7 +92,15 @@ class ProductosModel extends \Com\Daw2\Core\BaseModel{
            }
         }
         
-        
+        function delete(string $codigo):int{
+            $stmt = $this->pdo->prepare('DELETE FROM producto WHERE codigo =?');
+            $stmt->execute([$codigo]);
+            if($stmt->rowCount() != 0){
+                return 1;
+            }else{
+                return 0;
+            }
+        }
         
         private function filterAll(array $filtros): array{
             $resultado = [];

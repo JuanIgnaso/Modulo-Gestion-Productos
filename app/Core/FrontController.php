@@ -88,6 +88,8 @@ class FrontController{
                 }
                 , 'get'); 
                 
+                
+                //Añadir Productos
                                 
                  Route::add('/addProducto', 
                 function(){
@@ -103,8 +105,24 @@ class FrontController{
                 }
                 , 'post'); 
                 
-
+                //Borrar Producto /cantDelete
                 
+                
+                
+                Route::add('/productos/delete/([A-Za-z0-9]+)',
+                function ($codigo) {
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->delete($codigo);
+                }
+                , 'get');
+                
+                
+                Route::add('/cantDelete',
+                function ($mensaje) {
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->cant_delete($mensaje);
+                }
+                , 'get');
                 
         
         Route::methodNotAllowed(
