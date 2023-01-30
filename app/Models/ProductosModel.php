@@ -27,6 +27,15 @@ class ProductosModel extends \Com\Daw2\Core\BaseModel{
             return $stmt->rowCount();
         }
         
+        /***
+         * Función que sirve para mostrar los datos del producto a editar en la vista
+         */
+       function showProducto(string $codigo): array{
+        $stmt = $this->pdo->prepare(self::SELECT_ALL.' WHERE producto.codigo=?');
+        $stmt->execute([$codigo]);  
+        return $stmt->fetchAll();
+        }
+        
         function existeProducto(string $codigo): bool{
             $stmt = $this->pdo->prepare('SELECT * FROM producto WHERE codigo = ?');
             $stmt->execute([$codigo]);

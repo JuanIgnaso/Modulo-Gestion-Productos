@@ -172,4 +172,19 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         $data['seccion'] = '/productos';
         $this->view->showViews(array('templates/header.view.php','CantDelete.view.php','templates/footer.view.php'),$data);
     }
+    
+    
+    function mostrarEdit($codigo){
+        $data = [];
+        $data['titulo'] = 'Producto '.$codigo;
+        $data['seccion'] = '/addProducto';
+        $modelProv = new \Com\Daw2\Models\ProveedorModel();
+        $modelC = new \Com\Daw2\Models\CategoriaModel();
+        $modelo = new \Com\Daw2\Models\ProductosModel();
+        $data['proveedores'] = $modelProv->getAll();
+        $data['categorias'] = $modelC->getAll();
+        $data['producto'] = $modelo->showProducto($codigo);
+        
+        $this->view->showViews(array('templates/header.view.php','EditProducto.view.php','templates/footer.view.php'),$data);     
+    }
 }

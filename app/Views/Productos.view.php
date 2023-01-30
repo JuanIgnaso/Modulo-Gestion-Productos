@@ -122,7 +122,7 @@
                                 <!-- BORRAR /proveedor/delete/< ? php echo $proveedor['cif'];? >-->
                             <a href="/productos/delete/<?php echo $producto['codigo'];?>" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
                             <!-- EDITAR /proveedor/edit/< ? php echo $proveedor['cif']; ? > -->
-                            <a href="" class="btn btn-info ml-1"><i class="fas fa-pen"></i></a>
+                            <a href="/producto/edit/<?php echo $producto['codigo'];?>" class="btn btn-info ml-1"><i class="fas fa-pen"></i></a>
                             </td>
                            
 

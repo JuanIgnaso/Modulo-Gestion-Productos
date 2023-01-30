@@ -124,6 +124,15 @@ class FrontController{
                 }
                 , 'get');
                 
+                //Modificar Producto
+                //Se tiene que pasar una variable en este caso el codigo
+                 Route::add('/producto/edit/([A-Za-z0-9]+)',
+                function ($codigo) {
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->mostrarEdit($codigo);
+                }
+                , 'get');
+                
         
         Route::methodNotAllowed(
             function(){
