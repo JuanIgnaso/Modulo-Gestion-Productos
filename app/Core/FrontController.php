@@ -7,12 +7,39 @@ use Steampixel\Route;
 class FrontController{
     
     static function main(){
+        
+        session_start();
+        
         Route::add('/', 
                 function(){
                     $controlador = new \Com\Daw2\Controllers\InicioController();
                     $controlador->index();
                 }
-                , 'get');                
+                , 'get');  
+                
+             
+         /*******METODOS EN EL FRONT PARA PODER LOGUEARSE******/       
+                
+        Route::add('/login',
+                function(){
+                    $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
+                    $controlador->login();
+                }
+            ,'get');   
+            
+            
+        //Loguear usuario         
+        Route::add('/login',
+                function(){
+                    $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
+                    $controlador->loginUser();
+                }
+            ,'post');   
+            
+                
+            
+            
+        /***************************************************/
                 
         Route::pathNotFound(
             function(){
@@ -132,6 +159,13 @@ class FrontController{
                     $controlador->mostrarEdit($codigo);
                 }
                 , 'get');
+                
+                Route::add('/producto/edit/([A-Za-z0-9]+)',
+                function ($codigo) {
+                    $controlador = new \Com\Daw2\Controllers\ProductosController();
+                    $controlador->edit($codigo);
+                }
+                , 'post');
                 
         
         Route::methodNotAllowed(

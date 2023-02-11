@@ -14,7 +14,8 @@ class ProductosModel extends \Com\Daw2\Core\BaseModel{
         private const FROM =  "FROM producto LEFT JOIN categoria ON producto.id_categoria = categoria.id_categoria LEFT JOIN proveedor ON producto.proveedor = proveedor.cif";
         private const COUNT_FROM = 'SELECT COUNT(*) as total '. self::FROM;
         private const INSERT_INTO = "INSERT INTO producto(codigo,nombre,descripcion,proveedor,coste,margen,stock,iva,id_categoria)";
-
+        private const UPDATE = "UPDATE producto SET ";
+        
         //ORDENACION DE CAMPOS
         
         //Permitir ordenación por código, nombre, proveedor, categoría y stock.
@@ -175,5 +176,23 @@ class ProductosModel extends \Com\Daw2\Core\BaseModel{
             return $res[0]['total'];
         }
     }
+    
+    function edit(string $codigo, string $nombre, string $descripcion, string $proveedor, float $coste, float $margen, int $stock, int $categoria): bool{
+      
+            $stmt = $this->pdo->prepare("UPDATE producto SET nombre=?,descripcion=?,proveedor=?,coste=?,margen=?,stock=?,id_categoria=? WHERE codigo=?");
+           return $stmt->execute([
+             
+             $nombre,
+             $descripcion,
+             $proveedor,
+             $coste,
+             $margen,
+             $stock,
+             $categoria,
+             $codigo
+            ]);
+            
+    
+        }
         
 }

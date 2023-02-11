@@ -153,6 +153,48 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         return $errores;      
     }
     
+    function checkEdit(array $post): array{
+        $model = new \Com\Daw2\Models\ProductosModel();
+        
+        $errores = [];
+        if(empty($post['nombre'])){
+             $errores['nombre'] = 'Este campo es obligatorio.';
+        }
+        if(empty($post['coste'])){
+             $errores['coste'] = 'Este campo es obligatorio.';
+        }
+        if(!filter_var($post['coste'],FILTER_VALIDATE_FLOAT)){
+            $errores['coste'] = 'El coste debe de ser un número.';
+        }else if($post['coste'] <= 0){
+            $errores['coste'] = 'El valor debe de ser mayor a 0.';
+        }
+        
+         if(empty($post['margen'])){
+             $errores['margen'] = 'Este campo es obligatorio.';
+        }
+         if(!filter_var($post['margen'],FILTER_VALIDATE_FLOAT)){
+            $errores['margen'] = 'El margen debe de ser un número.';
+        }else if($post['margen'] <= 0){
+            $errores['margen'] = 'El valor debe de ser mayor a 0.';
+        }     
+        
+        if(empty($post['stock'])){
+             $errores['stock'] = 'Este campo es obligatorio.';
+        }
+    if(!filter_var($post['stock'],FILTER_VALIDATE_INT)){
+            $errores['stock'] = 'El stock debe de ser un número.';
+        }else if($post['stock'] <= 0){
+            $errores['stock'] = 'El valor debe de ser mayor a 0.';
+        } 
+        /*if(empty($post['categoria'])){
+             $errores['categoria'] = 'Este campo es obligatorio.';
+        }
+        if(empty($post['proveedor'])){
+             $errores['proveedor'] = 'Este campo es obligatorio.';
+        }*/
+        return $errores;      
+    }
+    
     function delete(string $codigo){
         $modelo = new \Com\Daw2\Models\ProductosModel();
         $result = $modelo->delete($codigo);
@@ -177,7 +219,7 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
     function mostrarEdit($codigo){
         $data = [];
         $data['titulo'] = 'Producto '.$codigo;
-        $data['seccion'] = '/addProducto';
+        $data['seccion'] = '/producto/edit/'.$codigo;
         $modelProv = new \Com\Daw2\Models\ProveedorModel();
         $modelC = new \Com\Daw2\Models\CategoriaModel();
         $modelo = new \Com\Daw2\Models\ProductosModel();
@@ -186,5 +228,26 @@ class ProductosController extends \Com\Daw2\Core\BaseController{
         $data['producto'] = $modelo->showProducto($codigo);
         
         $this->view->showViews(array('templates/header.view.php','EditProducto.view.php','templates/footer.view.php'),$data);     
+    }
+    
+    function edit($codigo){
+        $data = [];
+        $data['titulo'] = 'Producto '.$codigo;
+        $data['seccion'] = '/producto/edit/'.$codigo;
+        $data['errores'] = $this->checkEdit($_POST);
+        if(count($data['errores']) === 0){
+            $model = new \Com\Daw2\Models\ProductosModel();
+            $resultado = $model->edit($codigo,$_POST['nombre'],$_POST['descripcion'],$_POST['proveedor'][0],(float)$_POST['coste'],(float)$_POST['margen'],(int)$_POST['stock'],(int)$_POST['categoria'][0]);
+            if($resultado){
+                var_dump($resultado);
+                //header('Location: /productos');
+            }else{
+                $this->mostrarEdit($codigo);
+                //$data['error'] = 'Error al intentar modificar el producto';
+            }
+        }else{           
+            $data['input'] = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $this->view->showViews(array('templates/header.view.php','EditProducto.view.php','templates/footer.view.php'),$data);       
+        }
     }
 }
