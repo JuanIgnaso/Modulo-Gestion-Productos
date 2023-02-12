@@ -10,13 +10,18 @@ namespace Com\Daw2\Models;
 class UsuarioSistemaModel extends \Com\Daw2\Core\BaseModel{
     
  private const SELECT_ALL = 'SELECT * FROM usuario_sistema ';
- 
+
     
+ 
+ function getAll(): array{
+     $stmt = $this->pdo->query('SELECT usuario_sistema.*,rol.rol FROM usuario_sistema LEFT JOIN rol on usuario_sistema.id_rol = rol.id_rol');
+     return $stmt->fetchAll();
+ }
     
  //Funcion del modelo para loguear usuarios, necesitamos pasar email y contraseña
  public function login(string $email, string $password): ?\Com\Daw2\Helpers\UsuarioSistema{
      //1-Buscamos si el usuario existe
-     $query = $thi->pdo->prepare(self::SELECT_ALL." LEFT JOIN rol ON rol.id_rol=usuario_sistema.id_rol WHERE email=? AND baja=0");
+     $query = $this->pdo->prepare(self::SELECT_ALL." LEFT JOIN rol ON rol.id_rol=usuario_sistema.id_rol WHERE email=? AND baja=0");
      $query->execute([$email]);
      //2-Si hay coincidencias se devuelve el usuario del sistema
      if($row = $query->fetch()){
@@ -36,5 +41,18 @@ class UsuarioSistemaModel extends \Com\Daw2\Core\BaseModel{
     return new \Com\Daw2\Helpers\UsuarioSistema($row['id_usuario'],$rol,$row['email'],$row['nombre'],$row['idioma'],(string)$row['baja']);
     
  }
+ 
+ 
+ function existeUsuario(string $correo):bool{
+     
+     $stmt = $this->pdo->prepare(self::SELECT_ALL.' WHERE email=?');
+     $stmt->execute([$correo]);
+     return $stmt->rowCount() != 0;
+ }
+ 
+ function addUsuario(array $post): bool{
+     return true;
+ }
+
     
 }

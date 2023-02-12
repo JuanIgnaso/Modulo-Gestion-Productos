@@ -1,0 +1,146 @@
+<?php
+    if(isset($error)){
+        ?>
+    <div class="col-12">
+        <div class="alert alert-danger"><p><?php echo $error; ?></p></div>
+    </div>
+    <?php
+    }
+    ?>
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <form method="get"  action="/usuarios_sistema">
+                <!-- INPUT HIDDEN -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>   
+                </div> 
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <div class="mb-3">
+                                <label for="username">Nombre:</label>
+                                <input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo isset($input['nombre']) ? $input['nombre'] : '';?>" />
+                            </div>
+                        </div>   
+                        <div class="col-12 col-lg-3">
+                            <div class="mb-3">
+                                <label for="username">Correo:</label>
+                                <input type="text" class="form-control" name="email" id="email" value="<?php echo isset($input['email']) ? $input['email'] : '';?>" />
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="col-12 text-right">                     
+                        <a href="/usuarios" value="" name="reiniciar" class="btn btn-danger">Reiniciar filtros</a>
+                        <input type="submit" value="Aplicar filtros" name="enviar" class="btn btn-primary ml-2"/>
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">          
+                <h6 class="m-0 font-weight-bold text-primary">Datos del CSV</h6> 
+                
+            
+            </div>
+            <!-- Card Body -->
+            <div class="card-body" id="card_table">
+        
+                <div class="text-center">
+                      <a href="/usuarios_sistema/add" name="anadir" class="btn btn-info">Añadir Nuevo Registro</a>
+                </div>
+
+                <div id="button_container" class="mb-3"></div>
+                
+                <?php
+                if(count($usuarios) > 0){
+                ?>
+                <!-- if(count($elemento) >0 -->
+
+                <!--<form action="./?sec=formulario" method="post">     -->
+                <table id="tabladatos" class="table table-striped">                    
+                    <thead>
+                        <tr>
+                            <!-- Aqui se ponen los campos a pelo
+                            th a /ruta?order=1 echo $queryString 
+                            -->
+                            <th>Rol</th>
+                            <th>Correo</th>
+                            <th>Nombre Usuario</th>
+                            <th>Idioma</th>            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach($usuarios as $usuario){
+                        ?>
+                        <tr>
+                            <td><?php echo $usuario['rol']?></td>
+                            <td><?php echo $usuario['email']?></td>
+                            <td><?php echo $usuario['nombre']?></td>
+                            <td><?php echo $usuario['idioma']?></td>
+                            
+                                      
+                            <td>
+                   
+                                <!-- BORRAR -->
+                            <a href="" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
+                                        
+                            <!-- EDITAR -->
+                            <a href="" class="btn btn-info ml-1"><i class="fas fa-pen"></i></a>
+                            <!-- DAR DE BAJA -->
+                            <a href="" class="btn btn-warning ml-1"><i class="fas fa-toggle-on"></i></a>
+                            </td>
+           
+                        </tr>
+                        <?php
+                        }
+                        ?>
+                        <!-- Se implantara el foreach cuando se tenga preparado la consulta para 
+                        mostrar todo
+                        <?php
+                        /*foreach($usuarios as $usuario)*/
+                        ?>
+                            <tr>
+                                    <td> echo $usuario['campo']
+                                    ....
+                        </tr>
+                        <?php
+                      /* }
+                        echo tr
+                        */?>
+                       
+                        -->
+                       
+                    </tbody>           
+                </table>
+                
+                <?php
+                }else{
+                ?>
+                <p class="text-danger">No Se Han Encontrado Datos</p>
+                <?php
+                }
+                ?>
+                <!-- 
+                }
+                   else{
+                p class No existen registros
+                -->
+                
+            </div>
+        </div>
+    </div>                        
+</div>
+
+
+
+
+
+

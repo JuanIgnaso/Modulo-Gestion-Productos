@@ -1,7 +1,19 @@
-<?php
+<?php //
 
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
 
+namespace Com\Daw2\Controllers;
+
+class ProveedorController extends \Com\Daw2\Core\BaseController{
+    
+    
+    function showAll(){
+        $model = new \Com\Daw2\Models\ProveedorModel();
+        $data = [];
+        $data['proveedores'] = $model->getAll();
+        $data['titulo'] = 'Lista de Proveedores';
+        $data['seccion'] = '/proveedores';
+        $data['input'] = filter_Var_Array($_GET,FILTER_SANITIZE_SPECIAL_CHARS);
+        
+        $this->view->showViews(array('templates/header.view.php','ProveedoresView.php','templates/footer.view.php'),$data);     
+    }
+}

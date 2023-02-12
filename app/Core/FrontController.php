@@ -9,21 +9,20 @@ class FrontController{
     static function main(){
         
         session_start();
+       
         
-        Route::add('/', 
-                function(){
-                    $controlador = new \Com\Daw2\Controllers\InicioController();
-                    $controlador->index();
-                }
-                , 'get');  
-                
-             
-         /*******METODOS EN EL FRONT PARA PODER LOGUEARSE******/       
-                
+        
+        
+                 /*******METODOS EN EL FRONT PARA PODER LOGUEARSE******/       
+               //Para que en caso de no tener sesion iniciada te redirija al login
+ 
+      
+           
+           
         Route::add('/login',
-                function(){
-                    $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
-                    $controlador->login();
+           function(){
+                  $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
+                  $controlador->login();
                 }
             ,'get');   
             
@@ -34,7 +33,29 @@ class FrontController{
                     $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
                     $controlador->loginUser();
                 }
-            ,'post');   
+            ,'post');  
+            
+
+
+        
+        
+        Route::add('/', 
+                function(){
+                    $controlador = new \Com\Daw2\Controllers\InicioController();
+                    $controlador->index();
+                }
+                , 'get');  
+                
+             
+
+            
+                         
+        Route::add('/logout',
+                function(){
+                    $controlador = new \Com\Daw2\Controllers\SessionController();
+                    $controlador->borrarSesion();
+                }
+            ,'get');      
             
                 
             
@@ -106,9 +127,8 @@ class FrontController{
                 
             /***********************PRODUCTOS******************************/    
 
-                
-                
-                 Route::add('/productos', 
+    if(isset($_SESSION['user']) && preg_match('/rwd/',$_SESSION['permisos']['productos'])){
+          Route::add('/productos', 
                 function(){
                     $controlador = new \Com\Daw2\Controllers\ProductosController();
                     $controlador->showAll();
@@ -166,7 +186,58 @@ class FrontController{
                     $controlador->edit($codigo);
                 }
                 , 'post');
+    }            
                 
+               
+         
+        /****************************PROVEEDORES********************************/        
+             if(isset($_SESSION['user']) && preg_match('/rwd/',$_SESSION['permisos']['proveedores'])){
+                
+                 Route::add('/proveedores',
+                function () {
+                    $controlador = new \Com\Daw2\Controllers\ProveedorController();
+                    $controlador->showAll();
+                }
+                , 'get');  
+             }
+       
+
+                
+                
+        /********************************CATEGORIAS**********************************/        
+  if(isset($_SESSION['user']) && preg_match('/rwd/',$_SESSION['permisos']['categorias'])){
+                      
+            Route::add('/categorias',
+                    function(){
+                $controlador = new \Com\Daw2\Controllers\CategoriaController();
+                $controlador->showAll();
+                    }
+                ,'get'); 
+  }
+               
+   /******************USUARIOS****************************/
+  
+              Route::add('/usuarios_sistema',
+                    function(){
+                $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
+                $controlador->mostrarUsuariosSistema();
+                    }
+                ,'get'); 
+                
+                         Route::add('/usuarios_sistema/add',
+                    function(){
+                $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
+                $controlador->mostrarAdd();
+                    }
+                ,'get');      
+  
+                
+              Route::add('/usuarios_sistema/add',
+                    function(){
+                $controlador = new \Com\Daw2\Controllers\UsuarioSistemaController();
+                $controlador->addUsuarioSistema();
+                    }
+                ,'post'); 
         
         Route::methodNotAllowed(
             function(){
@@ -174,6 +245,7 @@ class FrontController{
                 $controller->error405();
             }
         );
+       
         Route::run();
     }
 }

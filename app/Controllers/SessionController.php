@@ -14,7 +14,7 @@ class SessionController extends \Com\Daw2\Core\BaseController{
     /**
      * Método para desloguear el usuario
      */
-    function borrarSesion(){
+    public function borrarSesion(){
         if(isset($_SESSION['user'])){
             session_destroy();
         }

@@ -42,7 +42,11 @@
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <!-- Para aplicar el logout hay que crear una entrada en el FrontController
+          llamando al enlace y haciendo uso del controlador de Sesiones
+          
+          -->
+        <a class="nav-link"  href="/logout" role="button">
           <i class="text-danger fas fa-sign-out-alt"></i>
         </a>        
       </li>
@@ -71,7 +75,7 @@
           <img src="assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Usuario</a>
+          <a href="#" class="d-block"><?php echo isset($_SESSION['user']) ? $_SESSION['user']->getNombre() : Usuario;?></a>
         </div>
       </div>
      

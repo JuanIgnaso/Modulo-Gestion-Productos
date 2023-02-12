@@ -23,6 +23,7 @@
               <li class="nav-item">
                 <a href="/csv/historico" class="nav-link <?php echo isset($seccion) && $seccion === '/csv/historico' ? 'active' : ''; ?>">
                   <i class="fas fa-history nav-icon"></i>
+                  
                   <p>Histórico</p>
                 </a>
               </li>
@@ -56,12 +57,49 @@
                   <p>Todos Los Usuarios</p>
                 </a>
               </li>
+       <?php
+           if(isset($_SESSION['user']) && preg_match('/rwd/',$_SESSION['permisos']['productos'])){
+
+       ?>       
                 <li class="nav-item">
                 <a href="/productos" class="nav-link <?php echo isset($seccion) && $seccion === '/csv/totales-2020' ? 'active' : ''; ?>">
                  <i class="fas fa-mobile-alt"></i>
                   <p>Productos</p>
                 </a>
               </li>
+              
+              <?php
+                }
+              ?>
+              
+                 <?php
+           if(isset($_SESSION['user']) && preg_match('/rwd/',$_SESSION['permisos']['proveedores'])){
+
+                ?>     
+               <li class="nav-item">
+                <a href="/proveedores" class="nav-link <?php echo isset($seccion) && $seccion === '/csv/totales-2020' ? 'active' : ''; ?>">
+                <i class="fas fa-truck"></i>
+                  <p>Proveedores</p>
+                </a>
+              </li>
+            <?php
+                }
+              ?>
+              
+          <?php
+           if(isset($_SESSION['user']) && preg_match('/rwd/',$_SESSION['permisos']['categorias'])){
+         ?>  
+               <li class="nav-item">
+                <a href="/categorias" class="nav-link <?php echo isset($seccion) && $seccion === '/csv/totales-2020' ? 'active' : ''; ?>">
+                <i class="fab fa-hackerrank"></i>
+                  <p>Categorias</p>
+                </a>
+              </li>
+         <?php
+           }
+         ?>     
+              
+              
             </ul>
           </li> 
         </ul>
